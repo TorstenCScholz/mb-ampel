@@ -24,15 +24,15 @@ class SWMClient
   def self.parse_bus_stop_response(bus_stop_response)
     return nil unless bus_stop_response =~ SEARCH_QUERY_RESULT_REGEX
 
-   id = $1
-   direction = nil
-   bus_stop_name = $2 + $3 + $4
+    id = $1
+    direction = nil
+    bus_stop_name = $2 + $3 + $4
 
-   match_bus_stop_direction = $5
-   direction = match_bus_stop_direction unless match_bus_stop_direction.nil?
+    match_bus_stop_direction = $5
+    direction = match_bus_stop_direction unless match_bus_stop_direction.nil?
 
-   return BusStop.new_from_station_name id: id, name: bus_stop_name, direction: direction if BusStop.contains_station_name(bus_stop_name)
+    return BusStop.new_from_station_name id: id, name: bus_stop_name, direction: direction if BusStop.contains_station_name(bus_stop_name)
 
-   return BusStop.new id: id, name: bus_stop_name, direction: direction
+    return BusStop.new id: id, name: bus_stop_name, direction: direction
   end
 end
