@@ -11,7 +11,10 @@ class BusStop
   end
 
   def to_s
-    "@#{self.class}{id: #{id}, name: #{name}, direction: #{direction}, station: #{station}}"
+    ret = "@#{self.class}{id: #{id}, name: #{name}, direction: #{direction}"
+    ret +=  ", station: #{station}" unless station.nil?
+
+    ret + "}"
   end
 
   def self.contains_station_name(full_name)

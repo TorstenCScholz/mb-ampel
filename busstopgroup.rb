@@ -1,7 +1,8 @@
-class BusStopGroup
+class BusStopGroup < Delegator
   attr_reader :bus_stops
 
   def initialize(arg)
+    super
     case arg
     when BusStop
       @bus_stops = [arg]
@@ -10,20 +11,19 @@ class BusStopGroup
     end
   end
 
-  def add_bus_stop(bus_stop)
-    @bus_stops << bus_stop unless @bus_stops.include? bus_stop
+  def __getobj__
+    @bus_stops
   end
 
-  def remove_bus_stop(bus_stop)
-    @bus_stops.delete bus_stop if @bus_stops.include? bus_stop
+  def __setobj__(obj)
+    # Do not change object
   end
 
   def to_s
     str  = "@#{self.class}{\n"
     bus_stops.each {|bus_stop| str += '  ' + bus_stop.to_s + "\n"}
-    str += '}'
 
-    str
+    str + "}"
   end
 end
 

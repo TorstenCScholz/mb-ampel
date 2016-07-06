@@ -12,9 +12,8 @@ class SWMClient
     response = RestClient.get BASE_URL + '/search.php', {:params => {query: searchTerm, _: Time.now}}
     string_bus_stops = response.to_enum(:scan, SEARCH_QUERY_RESULT_REGEX).map {$&}
 
-    bus_stops = []
-    string_bus_stops.each do |bus_stop_response|
-      bus_stops << self.parse_bus_stop_response(bus_stop_response)
+    bus_stops = string_bus_stops.map do |bus_stop_response|
+      self.parse_bus_stop_response(bus_stop_response)
     end
 
     BusStopGroup.new(bus_stops)
