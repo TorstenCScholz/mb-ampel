@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 require 'rest-client'
 
 require_relative 'busstopgroup'
@@ -13,7 +15,7 @@ class SWMClient
     string_bus_stops = response.to_enum(:scan, SEARCH_QUERY_RESULT_REGEX).map {$&}
 
     bus_stops = string_bus_stops.map do |bus_stop_response|
-      self.parse_bus_stop_response(bus_stop_response)
+      self.parse_bus_stop_response(bus_stop_response.force_encoding("utf-8"))
     end
 
     BusStopGroup.new(bus_stops)

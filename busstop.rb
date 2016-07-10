@@ -1,3 +1,7 @@
+# encoding: UTF-8
+
+require 'json'
+
 BUS_STOP_NAME_REGEX = /^(?:(.+)\s)?(\w\d?)(?:\s(.+))?$/i
 
 class BusStop
@@ -15,6 +19,16 @@ class BusStop
     ret +=  ", station: #{station}" unless station.nil?
 
     ret + "}"
+  end
+
+  def to_json(options = {})
+    JSON.generate(self.to_hash)
+  end
+
+  def to_hash
+    hash = {}
+    instance_variables.each { |var| hash[var.to_s.delete("@")] = instance_variable_get(var) }
+    hash
   end
 
   def self.contains_station_name(full_name)
