@@ -1,5 +1,6 @@
 # encoding: UTF-8
 
+require 'sinatra/reloader'
 require 'rest-client'
 
 require_relative 'busstopgroup'
@@ -18,7 +19,7 @@ class SWMClient
       self.parse_bus_stop_response(bus_stop_response.force_encoding("utf-8"))
     end
 
-    BusStopGroup.new(bus_stops)
+    BusStopGroup.new bus_stops
   end
 
   private

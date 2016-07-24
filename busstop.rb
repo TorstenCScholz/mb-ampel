@@ -1,5 +1,6 @@
 # encoding: UTF-8
 
+require 'sinatra/reloader'
 require 'json'
 
 BUS_STOP_NAME_REGEX = /^(?:(.+)\s)?(\w\d?)(?:\s(.+))?$/i
@@ -15,9 +16,9 @@ class BusStop
   end
 
   def to_s
-    ret = "@#{self.class}{id: #{id}, name: #{name}, direction: #{direction}"
-    ret +=  ", station: #{station}" unless station.nil?
-
+    ret =  "@#{self.class}{id: #{id}, name: #{name}"
+    ret += ", direction: #{direction}" unless direction.nil?
+    ret += ", station: #{station}" unless station.nil?
     ret + "}"
   end
 
@@ -27,7 +28,7 @@ class BusStop
 
   def to_hash
     hash = {}
-    instance_variables.each { |var| hash[var.to_s.delete("@")] = instance_variable_get(var) }
+    instance_variables.each { |var| hash[var.to_s.delete('@')] = instance_variable_get(var) }
     hash
   end
 
