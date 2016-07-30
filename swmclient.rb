@@ -1,16 +1,17 @@
 # encoding: UTF-8
 
-require 'sinatra/reloader'
 require 'rest-client'
 
 require_relative 'busstopgroup'
+require_relative 'busstopregexp'
 
-BASE_URL = 'http://www.stadtwerke-muenster.de/fis'
-
-SEARCH_QUERY_RESULT_REGEX = %r%<a class="inactive" name="efahyperlinks" href="#{BASE_URL}/(\d+?)" target="_self">(.*?)<span style="font-weight:bold;">(.+?)</span>(.*?) <span class="richtung">(?:\((.*?)\))?</span></a>%i
-BUSSTOP_REQUEST_RESULT_REGEX = %r%<div class="\w+"><div class="line">([^<]+?)</div><div class="direction">([^<]+?)</div><div class="\w+">((?:[^<]*?)|(?:<div class="borden"></div>))</div><br class="clear" /></div>%i
+# This is in mb-uhr?!
+# BUSSTOP_REQUEST_RESULT_REGEX = %r%<div class="\w+"><div class="line">([^<]+?)</div><div class="direction">([^<]+?)</div><div class="\w+">((?:[^<]*?)|(?:<div class="borden"></div>))</div><br class="clear" /></div>%i
 
 class SWMClient
+  BASE_URL = 'http://www.stadtwerke-muenster.de/fis'
+  SEARCH_QUERY_RESULT_REGEX = %r%<a class="inactive" name="efahyperlinks" href="#{BASE_URL}/(\d+?)" target="_self">(.*?)<span style="font-weight:bold;">(.+?)</span>(.*?) <span class="richtung">(?:\((.*?)\))?</span></a>%i
+
   def self.get_bus_stop_group(searchTerm)
     response = RestClient.get BASE_URL + '/search.php', {:params => {query: searchTerm, _: Time.now}}
     string_bus_stops = response.to_enum(:scan, SEARCH_QUERY_RESULT_REGEX).map {$&}

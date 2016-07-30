@@ -1,6 +1,5 @@
 # encoding: UTF-8
 
-require 'sinatra/reloader'
 require 'json'
 
 BUS_STOP_NAME_REGEX = /^(?:(.+)\s)?(\w\d?)(?:\s(.+))?$/i

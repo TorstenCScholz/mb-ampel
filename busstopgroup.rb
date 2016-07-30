@@ -1,6 +1,5 @@
 # encoding: UTF-8
 
-require 'sinatra/reloader'
 require 'json'
 
 class BusStopGroup < Delegator
